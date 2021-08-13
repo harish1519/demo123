@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="payload" format="json">
+      <types:shape format="weave" example="examples/mule-artifact.json"><![CDATA[%dw 2.0
+
+type payload = {|
+  person_id: String, 
+  gmail: String
+|} {"example": "{\\\"person_id\\\":\\\"23\\\",\\\"gmail\\\":\\\"afaf@dd\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#503ecb88-5af9-4155-b5d4-a5237723e070">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="payload"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="146da834-0d1f-4215-a6cb-324e5ab0b22a" >
+		<http:listener-connection host="0.0.0.0" port="9600" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="f18744c2-235e-478c-9596-48107d5ee349" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="P@15assword" database="sakila" />
+	</db:config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="24b11578-055d-4429-8e84-6db11058f0c9" >
+		<salesforce:basic-connection username="hari@prowess.com" password="H@r1kr1shn@547" securityToken="L4V0CixDTCqzdbKQICWv2kVAa" />
+	</salesforce:sfdc-config>
+	<flow name="databaseharishFlow" doc:id="e85719df-b01c-46c1-9efa-2b57e1995de5" >
+		<http:listener doc:name="Listener" doc:id="685c3d22-b28b-4a7c-a297-071d7bfb9b5a" config-ref="HTTP_Listener_config" path="/databaseharish"/>
+		<salesforce:batch-info doc:name="Batch info" doc:id="8ba8c0f4-85a3-48ad-ac8c-0940e588ec7d" config-ref="Salesforce_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="d044a11c-ca44-4a0f-80ca-9b86a8e92a1d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
